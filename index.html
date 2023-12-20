@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEERS BE SLAYERS</title>
+    <link rel="stylesheet" type="text/css" href="https://cheersbeslayers.in/bootstrap/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="new.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script type="text/javascript">
+        BASE_URL = "https://cheersbeslayers.in/"
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            var submitButton = $('#submitBtnAmount');
+
+            $('#form_amount').submit(function (e) {
+                e.preventDefault();
+                var me = $(this);
+
+                // Disable the submit button
+                submitButton.prop('disabled', true);
+
+                // Perform AJAX request
+                $.ajax({
+                    url: me.attr('action'),
+                    type: 'POST',
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function (response) {
+                        // Handle the response
+                        if (response.success == true) {
+                            alert("Club Added Successfully!");
+                            location.reload();
+                            $('.form-group').removeClass('has-error').removeClass('has-success');
+                            $('.text-danger').remove();
+                            $('#menu1').modal('hide');
+                            swal.fire({
+                                title: "Added",
+                                text: "Club has been Generated!",
+                                icon: 'success',
+                                type: "success",
+                                timer: 3000
+                            });
+                            // dataTable.ajax.reload();
+                            // // Reset the form
+                            // me[0].reset();
+
+                            // Disable the submit button for 20 seconds
+                            submitButton.prop('disabled', true);
+                            setTimeout(function () {
+                                submitButton.prop('disabled', false);
+                            }, 20000);
+                        } else {
+                            // Prepare error
+                            $.each(response.messages, function (key, value) {
+                                var element = $('#' + key);
+                                element.closest('div.form-group')
+                                    .removeClass('has-error')
+                                    .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                                    .find('.text-danger')
+                                    .remove();
+
+                                element.after(value);
+                            });
+
+                            // Enable the submit button
+                            submitButton.prop('disabled', false);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        swal.fire({
+                            title: "Error saving...",
+                            text: "Please try again later !!!",
+                            icon: 'error',
+                            type: "error",
+                            timer: 3000
+                        });
+
+                        // Enable the submit button
+                        submitButton.prop('disabled', false);
+                    }
+                });
+            });
+
+        });
+    </script>
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #000;
+        }
+
+        .section-main {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            background: url('https://wallpapercave.com/w/wp9545101.jpg') no-repeat;
+            background-size: cover;
+            /* opacity: 0.7; */
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px 100px;
+
+        }
+
+        .section-main h1 {
+            font-size: 50px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 60px;
+            width: 65%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.993);
+            margin-top: 10px;
+
+        }
+
+        .section-main p {
+            color: #fff;
+            font-size: 25px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 2px;
+
+
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 100px;
+            z-index: 999;
+            transition: 0.6s;
+        }
+
+        header.sticky {
+            background-color: #242323;
+            padding: 15px 100px;
+
+        }
+
+        header .brand {
+            font-size: 30px;
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        header .menu {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header .menu a {
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+            margin: 0 30px;
+            padding: 5px 15px;
+            text-transform: uppercase;
+            border-radius: 15px;
+            transition: 0.3s;
+            transition-property: color, background;
+        }
+
+        header .menu a:hover {
+            color: #000;
+            background: #fff;
+        }
+
+        header .btn {
+            font-size: 25px;
+            cursor: pointer;
+            color: #fff;
+            display: none;
+        }
+
+        /* 
+.section-two {
+  min-height: 100vh;
+  background: #222;
+  padding: 20px 100px;
+}
+
+.section-two h2{
+  font-size: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 30px 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.section-two p {
+  font-size: 18px;
+  margin: 30px 0;
+  color: rgba(255, 255, 255, 0.5);
+} */
+
+        @media (max-width: 1024px) {
+            header .btn {
+                display: block;
+            }
+
+            header .menu.active {
+                right: 0;
+            }
+
+            header .menu {
+                position: fixed;
+                background: #242323;
+                flex-direction: column;
+                min-width: 160px;
+                height: 100vh;
+                top: 0;
+                right: -100%;
+                padding: 80px 50px;
+                transition-property: right;
+                transition: 0.5s;
+            }
+
+            header .menu .close-btn {
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: 25px;
+            }
+
+            header .menu a {
+                display: block;
+                font-size: 16px;
+                margin: 20px;
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .section-main h1 {
+                font-size: 50px;
+                line-height: 60px;
+                text-align: center;
+                width: fit-content;
+
+
+            }
+        }
+
+        .page1 {
+            height: 100vh;
+            padding: 20px 70px;
+            margin: 30px;
+
+        }
+
+        .page1 h2 {
+            margin: 20px;
+            font-size: 60px;
+            color: #a81b24;
+        }
+
+        .page1 p {
+            margin: 20px;
+            width: 50%;
+            color: #a81b24;
+        }
+
+
+
+        :root {
+            --clr-primary: #59c6b3;
+            --clr-secondary: #232323;
+        }
+
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .about {
+            padding: 50px 0;
+            background-color: #fefefe;
+        }
+
+        .container {
+            max-width: 1440px;
+            width: 95%;
+            margin: 0 auto;
+        }
+
+        .heading {
+            text-align: center;
+        }
+
+        .section-heading {
+            text-transform: uppercase;
+            font-size: 90px;
+            color: var(--clr-secondary);
+        }
+
+        .sub-heading {
+            max-width: 76ch;
+            margin: 25px auto 0;
+            line-height: 1.8;
+            font-size: 18px;
+            color: var(--clr-secondary);
+        }
+
+        .row-container {
+            margin-top: 50px;
+        }
+
+
+
+        .row {
+            display: flex;
+        }
+
+        .row:not(:last-child) {
+            margin-bottom: 100px;
+        }
+
+        .row div:first-child {
+            margin-right: 50px;
+        }
+
+        .row .img-col {
+            flex: 1 1 40%;
+        }
+
+        .row .text-col {
+            flex: 1 1 60%;
+            margin: 20px;
+        }
+
+        .text-col h3 {
+            text-transform: uppercase;
+            font-size: 130px;
+            line-height: 0.9;
+            color: var(--clr-primary);
+            margin: 0.4em 0;
+        }
+
+        .text-col p {
+            font-size: 20px;
+            line-height: 1.8;
+            color: var(--clr-secondary);
+        }
+
+        .img-col.n-margin {
+            margin-top: 13px;
+        }
+
+        @media (max-width: 1200px) {
+            .text-col h3 {
+                font-size: 100px;
+            }
+
+            .section-heading {
+                font-size: 60px;
+            }
+
+            .row .img-col {
+                flex: 1 1 48%;
+            }
+
+            .row .text-col {
+                flex: 1 1 52%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .text-col h3 {
+                font-size: 72px;
+            }
+
+            .text-col p {
+                font-size: 18px;
+            }
+
+            .sub-heading {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+
+            .row div:first-child {
+                margin-right: 0;
+            }
+
+            .row .img-col,
+            .row .text-col {
+                flex: 1;
+            }
+
+            .row:last-child .text-col {
+                order: 2;
+            }
+
+            .row:not(:last-child) {
+                margin-bottom: 80px;
+            }
+
+            .img-col.n-margin {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .text-col h3 {
+                font-size: 56px;
+            }
+
+            .section-heading {
+                font-size: 45px;
+            }
+        }
+
+        :root {
+            --color-gray-90: hsl(0, 0%, 90%);
+            --color-gray-80: hsl(0, 0%, 80%);
+            --color-gray-50: hsl(0, 0%, 50%);
+            --color-light: hsl(0, 0%, 100%);
+            --font-size-initial: 15px;
+            --size-initial: 1px;
+        }
+
+        /* body{
+  background: var(--color-gray-90);
+  color: var(--color-gray-50);
+  font-family: BlinkMacSystemFont, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--font-size-initial);
+} */
+
+        /* CONTAINERS */
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(calc(var(--font-size-initial) * 18), 1fr));
+            gap: calc(var(--font-size-initial) * 2);
+            margin: auto;
+            max-width: calc(var(--font-size-initial) * 80);
+            padding: calc(var(--font-size-initial) * 2);
+            background-color: black;
+        }
+
+        section {
+            background: var(--color-light);
+            border-radius: calc(var(--font-size-initial) * .5);
+            box-shadow: 0 calc(var(--size-initial) * 3) calc(var(--size-initial) * 6) hsla(0, 0%, 0%, .1);
+            overflow: hidden;
+        }
+
+        article {
+            padding: calc(var(--font-size-initial) * 3);
+        }
+
+        figure {
+            height: calc(var(--font-size-initial) * 15);
+        }
+
+        /* IMAGE */
+        img {
+            height: 100%;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        /* TYPOGRAPHY */
+        h3 {
+            font-size: calc(var(--font-size-initial) * 2);
+            letter-spacing: calc(var(--size-initial) * -1.25);
+            line-height: calc(var(--font-size-initial) * 2.25);
+            margin: calc(var(--font-size-initial) * .5) 0;
+        }
+
+        p {
+            font-size: calc(var(--font-size-initial) * .875);
+            line-height: calc(var(--font-size-initial) * 1.25);
+        }
+
+        span {
+            color: var(--color-gray-80);
+            font-size: calc(var(--font-size-initial) * .75);
+            letter-spacing: calc(var(--size-initial) * .75);
+            text-transform: uppercase;
+            word-spacing: var(--size-initial);
+        }
+
+        .page2 {
+
+            background-color: #000;
+
+
+        }
+
+        .page3 {
+
+            background-color: #000;
+
+
+        }
+
+        .page2 h2 {
+            text-align: center;
+            font-size: 60px;
+            color: #fff;
+            padding: 50px;
+
+
+        }
+
+        /* Add this CSS to beautify the form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            /* Allow vertical resizing of the textarea */
+        }
+
+        button[type="submit"] {
+            background-color: #a81b24;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #d32f3f;
+            /* Darker shade when hovered */
+        }
+
+        /* Media query to adjust form styling on smaller screens */
+        @media (max-width: 768px) {
+            label {
+                font-size: 16px;
+            }
+
+            .form-control {
+                font-size: 14px;
+            }
+        }
+
+        /* CSS for form labels */
+        .form-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        /* Add more styles as needed */
+
+        /* Style the submit button */
+        #submitBtnAmount {
+            background-color: #a81b24;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        #submitBtnAmount:hover {
+            background-color: #d32f3f;
+            /* Darker shade when hovered */
+        }
+
+        /* Add a subtle shadow on hover for a 3D effect */
+        #submitBtnAmount:hover {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+
+
+
+        /*start*/
+
+        /*section {*/
+        /*  position: relative;*/
+        /*  z-index: 3;*/
+        /*  padding-top: 50px;*/
+        /*  padding-bottom: 50px;*/
+        /*}*/
+
+        /*.container {*/
+        /*  max-width: 1080px;*/
+        /*  margin-left: auto;*/
+        /*  margin-right: auto;*/
+        /*  padding-left: 20px;*/
+        /*  padding-right: 20px;*/
+        /*}*/
+
+        /*.section-header {*/
+        /*  margin-bottom: 50px;*/
+        /*  text-align: center;*/
+        /*}*/
+
+        /*.section-header h2 {*/
+        /*  color: #FFF;*/
+        /*  font-weight: bold;*/
+        /*  font-size: 3em;*/
+        /*  margin-bottom: 20px;*/
+        /*}*/
+
+        /*.section-header p {*/
+        /*  color: #FFF;*/
+        /*}*/
+
+        /*.row  {*/
+        /*  display: flex;*/
+        /*  flwx-wrap: wrap;*/
+        /*  align-items: center;*/
+        /*  justify-content: space-between;*/
+        /*}*/
+
+        .contact-info {
+            width: 50%;
+        }
+
+        .contact-info-item {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .contact-info-icon {
+            height: 70px;
+            width: 70px;
+            background-color: #fff;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .contact-info-icon i {
+            font-size: 30px;
+            line-height: 70px;
+        }
+
+        .contact-info-content {
+            margin-left: 20px;
+        }
+
+        .contact-info-content h4 {
+            color: #1da9c0;
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+
+        .contact-info-content p {
+            color: #FFF;
+            font-size: 1em;
+        }
+
+        .contact-form {
+            background-color: #fff;
+            padding: 40px;
+            width: 45%;
+            padding-bottom: 20px;
+            padding-top: 20px;
+        }
+
+        .contact-form h2 {
+            font-weight: bold;
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .contact-form .input-box {
+            position: relative;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .contact-form .input-box input,
+        .contact-form .input-box textarea {
+            width: 100%;
+            padding: 5px 0;
+            font-size: 16px;
+            margin: 10px 0;
+            border: none;
+            border-bottom: 2px solid #333;
+            outline: none;
+            resize: none;
+        }
+
+        .contact-form .input-box span {
+            position: absolute;
+            left: 0;
+            padding: 5px 0;
+            font-size: 16px;
+            margin: 10px 0;
+            pointer-events: none;
+            transition: 0.5s;
+            color: #666;
+        }
+
+        .contact-form .input-box input:focus~span,
+        .contact-form .input-box textarea:focus~span {
+            color: #e91e63;
+            font-size: 12px;
+            transform: translateY(-20px);
+        }
+
+        .contact-form .input-box input[type="submit"] {
+            width: 100%;
+            background: #00bcd4;
+            color: #FFF;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #00bcd4;
+            transition: 0.5s;
+        }
+
+        .contact-form .input-box input[type="submit"]:hover {
+            background: #FFF;
+            color: #00bcd4;
+        }
+
+        @media (max-width: 991px) {
+            section {
+                padding-top: 50px;
+                padding-bottom: 50px;
+            }
+
+            .row {
+                flex-direction: column;
+            }
+
+            .contact-info {
+                margin-bottom: 40px;
+                width: 100%;
+            }
+
+            .contact-form {
+                width: 100%;
+            }
+        }
+
+
+
+
+        /*start*/
+
+
+        @media only screen and (max-width: 435px) {
+            .section-main p {
+                line-height: 40px;
+            }
+
+
+            @media only screen and (max-width: 500px) {
+                .brand img {
+
+                    position: absolute;
+                    left: 10px;
+                    top: 0px;
+                }
+            }
+
+            @media only screen and (max-width: 500px) {
+                header .menu-btn {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                }
+
+            }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="#" class="brand">
+            <img src="https://logos-world.net/wp-content/uploads/2023/03/Cheers-Logo.png" style="width: 80px; height: 50px;">
+        </a>
+
+        <!--<a href="" class="brand">cheers</a>-->
+        <div class="menu">
+            <div class="btn">
+                <i class="fas fa-times close-btn"></i>
+            </div>
+            <a href="#">Home</a>
+            <a href="#services">Services</a>
+            <a href="#partner">Add partner</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="btn">
+            <i class="fas fa-bars menu-btn"></i>
+        </div>
+    </header>
+
+    <section class="section-main">
+        <p>Enjoy Night Life</p>
+        <h1>FEEL THE NIGHT HERE WITH FRIENDS</h1>
+    </section>
+
+    <section class="about">
+        <div class="container">
+            <div class="heading">
+                <h2 class="section-heading">about us</h2>
+                <p class="sub-heading">
+                    At Cheers, we are passionate about nightlife and creating unforgettable experiences. Our mission is
+                    to connect party enthusiasts with the best events, clubs, and venues in town. With Cheers, you're
+                    not just attending parties; you're part of a vibrant community that celebrates the night like never
+                    before.
+                </p>
+            </div>
+            <div class="row-container">
+                <div class="row">
+                    <div class="img-col">
+                        <img src="https://wallpapercave.com/w/wp11192952.jpg" alt="" />
+                    </div>
+                    <div class="text-col">
+                        <h3>
+                            Event<br />
+                            Coverage
+                        </h3>
+                        <p>
+                            Promote club's major events, ensuring maximum attendance.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-col">
+                        <h3>
+                            inside<br />
+                            look
+                        </h3>
+                        <p>
+                            Increase awareness of the club among partygoers. Regularly feature DJ shows and party
+                            photos, keeping patrons engaged.
+                        </p>
+                    </div>
+                    <div class="img-col n-margin">
+                        <img src="https://wallpapercave.com/w/wp7555102.jpg" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="page2">
+
+        <h2 id="services">Our Offerings</h2>
+
+        <main>
+            <section>
+                <figure>
+                    <img src="https://wallpapercave.com/w/wp2022929.jpg">
+                </figure>
+                <article>
+                    <!--<span>Social Media</span>-->
+                    <h3>We are dedicated</h3>
+                    <p>in curating the hottest parties and events in your city.</p>
+                </article>
+            </section>
+
+            <section>
+                <figure>
+                    <img src="https://wallpapercave.com/wp/wp2646806.jpg">
+                </figure>
+                <article>
+                    <!--<span>Photography</span>-->
+                    <h3>Our user-friendly app</h3>
+                    <p>provides event details at your fingertips, ensuring you're always well-prepared.</p>
+                </article>
+            </section>
+
+            <section>
+                <figure>
+                    <img src="https://wallpapercave.com/w/wp7555287.jpg">
+                </figure>
+                <article>
+                    <!--<span>Travel</span>-->
+                    <h3>We help you discover the trendiest clubs and venues,</h3>
+                    <p>so you never have to settle for a ordinary night out.</p>
+                </article>
+            </section>
+
+            <section>
+                <figure>
+                    <img src="https://wallpapercave.com/w/wp3291335.jpg">
+                </figure>
+                <article>
+                    <!--<span>Architecture</span>-->
+                    <h3>We foster connections within the Cheers community,</h3>
+                    <p>where partygoers can share experiences and create lasting memories.</p>
+                </article>
+            </section>
+
+            <section>
+                <figure>
+                    <img src="https://wallpapercave.com/wp/wp2848061.jpg">
+                </figure>
+                <article>
+                    <!--<span>Travel</span>-->
+                    <h3>Our subscribers enjoy exclusive benefits,</h3>
+                    <p>from priority access to special discounts, making them true VIPs of the nightlife scene.</p>
+                </article>
+            </section>
+
+            <section>
+                <figure>
+                    <img src="https://wallpapercave.com/w/wp11192958.jpg" alt="Free Stock Photo from pexels.com">
+                </figure>
+                <article>
+                    <!--<span>Design</span>-->
+                    <h3>Cheers allow you to customize your party</h3>
+                    <p>experience to match your unique tastes and preferences.</p>
+                </article>
+            </section>
+        </main>
+
+    </div>
+
+
+    <section id="partner" class="about">
+        <div class="container">
+            <div class="heading">
+                <h1>Register your Club Now</h1>
+
+            </div>
+            <div class="row-container">
+                <div class="row">
+                    <div class="img-col">
+                        <img src="https://wallpapercave.com/w/wp11192952.jpg" alt="" />
+                    </div>
+                    <div class="text-col">
+
+                        <form action="https://cheersbeslayers.in/Club_registration_controller/add_club_submit"
+                            id="form_amount" class="form-horizontal" method="post" accept-charset="utf-8">
+
+                            <div class="form-group">
+                                <label for="name" class="form-label">Club Name:</label>
+                                <input class="form-control" type="text" id="name" name="name" placeholder="Enter Name"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mobile" class="form-label">Mobile:</label>
+                                <input class="form-control" type="text" id="mobile" name="mobile"
+                                    placeholder="Enter mobile" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email:</label>
+                                <input class="form-control" type="email" id="email" name="email"
+                                    placeholder="Enter email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="owner_name" class="form-label">Owner Name:</label>
+                                <input class="form-control" type="text" id="owner_name" name="owner_name"
+                                    placeholder="Enter owner name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="specialities" class="form-label">Specialities:</label>
+                                <textarea class="form-control" id="specialities" name="specialities"
+                                    placeholder="Describe your Club Specialities" required></textarea>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="address" class="form-label">Address:</label>
+                                <textarea class="form-control" id="address" name="address"
+                                    placeholder="Enter Your address" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="form-label">ID Proof [Aadhar card, Voter ID etc.]:</label>
+                                <input class="form-control" type="file" id="image" name="image">
+                            </div>
+
+
+                            <input type="submit" id="submitBtnAmount" value="Submit">
+                        </form>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+    <div id="contact" class="page2">
+        <h2>Contact Us</h2>
+        <main class="page3">
+            <section>
+
+                <div class="container">
+                    <div class="row">
+
+                        <div class="contact-info">
+                            <div class="contact-info-item">
+                                <div class="contact-info-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+
+                                <div class="contact-info-content">
+                                    <h4>Address</h4>
+                                    <h5>MIG 38, Sangam Vihar,<br /> Sonari, Jameshedpur, <br />831011</h5>
+                                </div>
+                            </div>
+
+                            <div class="contact-info-item">
+                                <div class="contact-info-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+
+                                <div class="contact-info-content">
+                                    <h4>Phone</h4>
+                                    <h5>+91-9334825602, +91-9771232308</h5>
+                                </div>
+                            </div>
+
+                            <div class="contact-info-item">
+                                <div class="contact-info-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+
+                                <div class="contact-info-content">
+                                    <h4>Email</h4>
+                                    <h5>cheersbeaslayer@gmail.com</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contact-form">
+                            <form action="" id="contact-form">
+                                <h4>Send Message</h4>
+                                <div class="input-box">
+                                    <input type="text" required="true" name="">
+                                    <span>Full Name</span>
+                                </div>
+
+                                <div class="input-box">
+                                    <input type="email" required="true" name="">
+                                    <span>Email</span>
+                                </div>
+
+                                <div class="input-box">
+                                    <textarea required="true" name=""></textarea>
+                                    <span>Type your Message...</span>
+                                </div>
+
+                                <div class="input-box">
+                                    <input type="submit" value="Send" name="">
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+
+    <script>
+        //Javascript for Navigation effect on scroll
+        window.addEventListener("scroll", function () {
+            var header = document.querySelector("header");
+            header.classList.toggle('sticky', window.scrollY > 0);
+        });
+
+        //Javascript for responsive navigation sidebar Nav
+        var menu = document.querySelector('.menu');
+        var menuBtn = document.querySelector('.menu-btn');
+        var closeBtn = document.querySelector('.close-btn');
+
+        menuBtn.addEventListener("click", () => {
+            menu.classList.add('active');
+        });
+
+        closeBtn.addEventListener("click", () => {
+            menu.classList.remove('active');
+        });
+    </script>
+
+</body>
+
+</html>
